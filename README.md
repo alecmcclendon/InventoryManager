@@ -15,7 +15,6 @@
 - **フロントエンド**: HTML / CSS   
 - **データベース**: SQLite  
 - **デプロイ**: Render  
-- **Webサーバー**: Gunicorn + Eventlet
 
 ---
 
