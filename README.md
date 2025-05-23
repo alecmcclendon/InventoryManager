@@ -11,7 +11,7 @@
 
 ## 🛠️ 使用技術
 
-- **バックエンド**: Python / Flask / Flask-SocketIO  
+- **バックエンド**: Python / Flask 
 - **フロントエンド**: HTML / CSS   
 - **データベース**: SQLite  
 - **デプロイ**: Render  
