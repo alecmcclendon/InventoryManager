@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>商品管理</title>
+</head>
+<body>
+  <header>
+    <h1>商品管理</h1>
+  </header>
+    
+
+    {% if error %}
+    <p style="color: red; font-weight: bold;">{{ error }}</p>
+    {% endif %}
+    <form  class="entry-form" action="/add" method="POST">
+        <label>商品番号: <input type="text" name="item_number" required></label>
+        <label>商品名: <input type="text" name="name" required></label>
+        <label>説明: <input type="text" name="description"></label>
+        <label>在庫: <input type="number" name="stock" required></label>
+        <label>販売値段: <input type="number" name="price" required></label> <!-- [step="0.01"] if i want to add decimals-->
+        <label>カテゴリー: <input type="text" name="category"></label>
+        <label>追加日 (YYYY-MM-DD): <input type="text" name="added_date"></label>
+        <button type="submit">追加</button>
+    </form>
+    
+    <!-- search bar-->
+    <div class="inventory-header">
+        <h2>現在の在庫</h2>
+      
+        <form action="/" method="get" class="search-form">
+          <input type="text" name="search" placeholder="商品名/商品番号/カテゴリーを入力" value="{{ search }}">
+          <select name="sort">
+            <option value="">並び替えなし</option>
+            <option value="date_desc" {% if sort == 'date_desc' %}selected{% endif %}>日付 (新しい順)</option>
+            <option value="date_asc" {% if sort == 'date_asc' %}selected{% endif %}>日付 (古い順)</option>
+            <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>価格 (安い順)</option>
+            <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>価格 (高い順)</option>
+            <option value="stock_desc" {% if sort == 'stock_desc' %}selected{% endif %}>在庫数 (多い順)</option>
+            <option value="stock_asc" {% if sort == 'stock_asc' %}selected{% endif %}>在庫数 (少ない順)</option>
+            <option value="item_asc" {% if sort == 'item_asc' %}selected{% endif %}>商品番号 (昇順)</option>
+            <option value="item_desc" {% if sort == 'item_desc' %}selected{% endif %}>商品番号 (降順)</option>
+          </select>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+    <table class="inventory-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>商品番号</th>
+                <th>商品名</th>
+                <th>説明</th>
+                <th>在庫</th>
+                <th>販売値段</th>
+                <th>カテゴリー</th>
+                <th>追加日</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.item_number }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.stock }}</td>
+                <td>{{ product.price | int }}円</td>
+                <td>{{ product.category }}</td>
+                <td>{{ product.added_date }}</td>
+                
+                <td class="action-cell">
+                    <div class="button-wrapper">
+                      <form action="/delete/{{ product.id }}" method="POST">
+                        <button type="submit" class="delete-button" onclick="return confirm('削除しますか？')">削除</button>
+                      </form>
+                      <a href="/edit/{{ product.id }}" class="edit-button">編集</a>
+                    </div>
+                  </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit Product</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>商品の編集 #{{ product.id }}</h1>
+  </header>
+  
+
+  <form class="entry-form-edit" action="/update/{{ product.id }}" method="POST">
+    <label>商品番号:
+      <input type="text" name="item_number" value="{{ product.item_number }}" required>
+    </label><br>
+
+    <label>商品名:
+      <input type="text" name="name" value="{{ product.name }}" required>
+    </label><br>
+
+    <label>説明:
+      <input type="text" name="description" value="{{ product.description or '' }}">
+    </label><br>
+
+    <label>在庫:
+      <input type="number" name="stock" value="{{ product.stock }}" required>
+    </label><br>
+
+    <label>販売値段:
+      <input type="number" name="price" value="{{ product.price | int}}" required>
+    </label><br>
+
+    <label>カテゴリー:
+      <input type="text" name="category" value="{{ product.category or '' }}">
+    </label><br>
+
+    <label>追加日 (YYYY-MM-DD):
+      <input type="text" name="added_date" value="{{ product.added_date or '' }}">
+    </label><br>
+
+    <button class="save"  type="submit">保存</button>
+    <button  type="button" onclick="window.location.href='/'" class="cancel-button">Cancel</button>
+
+  </form>
+</body>
+</html>
